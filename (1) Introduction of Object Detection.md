@@ -1,25 +1,3 @@
-# Deep Learning Computer Vision
-
-```bash
-|-- Introduction of Object Detection
-|  |-- Understanding of Object detection & Segmentation
-|  |-- Main properties of Object detection and difficulties
-|  |-- Understanding of Object Localization & Detection
-|     |-- Region Proposal
-|     |-- IoU
-|     |-- NMS
-|     |-- mAP
-|-- Introduction of OpenCV and Dataset for Object detection & Segmentation
-|-- RCNN Object Detecter (RCNN, SPPNet, Fast RCNN, Faster RCNN)
-|-- Understanding of MMDetection & Faster RCNN
-|-- SSD
-|-- YOLO
-|-- Ultralytics Yolo
-|-- RetinaNet & EfficientDet
-|-- AutoML EfficientDet
-|-- Segmentation - Mask RCNN
-```
-
 # Introduction of Object Detection 
 ## Object detection 과 Segmentation 이해
 - AlexNet (2014)의 등장: Imagenet 압도적 성능 개선 -> Deep learning 기반으로 발전
@@ -121,9 +99,3 @@
   - ![스크린샷 2021-07-13 오후 5 06 01](https://user-images.githubusercontent.com/58493928/125540594-04c2cf98-f466-4c51-a78b-3191cc6451a4.png)
   - 오른쪽 최대 precision  값을 연결한다 --> 너비가 average precision (AP) 의미.
     - AP는 한 개의 오브젝트에 대한 의미. mAP 는 그런 오브젝트들의 AP 평균
-
-# Introduction of OpenCV and (major) Dataset for Object detection & Segmentation
-- [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/): `xml format`. 20개의 오브젝트 카테고리. 개별 오브젝트의 bounding box 정보(xmin, ymin, xmax, ymax)
-- MS COCO: `json format`. 80개의 오브젝트 카테고리
-- Google Open Images: `csv format`. 600개의 오브젝트 카테고리
-- 
