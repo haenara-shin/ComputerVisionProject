@@ -1,10 +1,10 @@
 # Deep Learning Computer Vision
 
 ```bash
-|-- Object Detection
-|	|-- Object detection 과 Segmentation 이해
-|   |-- Object detection 주요 구성 요소 및 왜 object detection 은 어려운가?
-|   |-- Object Localization 과 Detection 이해
+|-- Introduction of Object Detection
+|  |-- Object detection 과 Segmentation 이해
+|  |-- Object detection 주요 구성 요소 및 왜 object detection 은 어려운가?
+|  |-- Object Localization 과 Detection 이해
 |        |-- Region Proposal
 |        |-- IoU
 |        |-- NMS
