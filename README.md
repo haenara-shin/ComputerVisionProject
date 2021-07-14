@@ -61,6 +61,11 @@
 5. 데이터 세트 부족: 훈련 가능한 데이터 세트가 부족하며 annotation 을 만들어야 함(4번 이유의 연장선)
 
 ## Object Localization 과 Detection 이해
+
+  <img width="1122" alt="스크린샷 2021-07-14 오전 11 10 47" src="https://user-images.githubusercontent.com/58493928/125671574-201a7af6-70a3-4b4e-8b1b-243eab81226a.png">
+
+  <img width="1138" alt="스크린샷 2021-07-14 오전 11 14 54" src="https://user-images.githubusercontent.com/58493928/125672098-a65122a2-fcff-4be6-aaf9-06745f69c7a8.png">
+
 ### Object Localization 개요
 - 원본 이미지에 하나의 오브젝트만 있는 경우
 - Image classification + (Annotation file에 위치 정보 표현 갖고 있음 --> feature map 에 오브젝트가 하나 밖에 없어서 Bounding Box Regression --> 학습할 수록 bounding box 위치 좌표(annotation) 예측 오류를 줄여나감.)
@@ -123,7 +128,27 @@
     - AP는 한 개의 오브젝트에 대한 의미. mAP 는 그런 오브젝트들의 AP 평균
 
 # Introduction of OpenCV and (major) Dataset for Object detection & Segmentation
+## Dataset
 - [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/): `xml format`. 20개의 오브젝트 카테고리. 개별 오브젝트의 bounding box 정보(xmin, ymin, xmax, ymax)
-- MS COCO: `json format`. 80개의 오브젝트 카테고리
+- [MS COCO](http://cocodataset.org/#download): `json format`. 80개의 오브젝트 카테고리(총 91개 ID 중 데이터셋이 없는 ID가 11개 있음.). 많은 오픈 소스 계열의 주요 패키지들의 pretrained model 바탕이 되는 데이터셋. bounding box 정보가 소숫점으로 표시되기 때문에 정수값으로 바꿔야 함. 이미지 한 개에 여러 오브젝트들을 가지고 있기 때문에 타 데이터셋에 비해 난이도가 높은 데이터 제공.
 - Google Open Images: `csv format`. 600개의 오브젝트 카테고리
-- 
+## OpenCV
+- `PIL`: 처리 성능이 상대적으로 느림. `Image.oepn()`으로 image file을 읽어서 ImageFile객체로 생성.
+- `scikit-image`: scipy, numpy 기반
+- `opencv`: c++ 기반
+  -  사용상 주의점 (1)
+     - `imread('파일명')` 은 파일을 읽어 numpy array 로 변환하는데, BGR 형태로 로딩하기 때문에 `cvtColor(imread로 읽어와서 저장한 변수명, cv2.COLOR_BGR2RGB)` 처리 해야함.
+      ```python
+      import cv2
+      import matplotlib.pyplot as plt
+
+      img_bgr = cv2.imread('파일명')
+      img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+      plt.imshow(img_rgb)
+      ```
+  - 사용상 주의점(2)
+    - `imwrite`를 사용하면 다시 RGB로 저장됨. 굳이 RGB로 변환하는 절차를 거칠 필요 없음.
+  - 사용상 주의점(3)
+    - `cv2.imshow(이미지array)`는 이미지 배열을 window frame에 보여줌. 근데 주피터노트북에서는 에러가 발생. `cv2.waitKey()`는 키보드 입력이 있을 때까지 무한 대기. `cv2.destroyAllWindows()` 화면의 윈도우 프레임 모두 종료. 그래서 `이미지 배열 시각화 할때 주피터노트북에서는 matplotlib` 사용. `plt.imshow(배열, 이미지, 다 읽을 수 있음)`
+  - `cv2.VideoCapture(처리할 파일)`는 동영상을 개별 frame 으로 하나씩 읽어들임(`.read()`). `cv2.VideoWriter(출력될 파일명)`는 `VideoCapture`로 읽어들인 개별 frame 을 `동영상 파일로 Write` 수행.
+

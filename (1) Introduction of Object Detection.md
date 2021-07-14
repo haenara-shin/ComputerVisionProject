@@ -39,6 +39,11 @@
 5. 데이터 세트 부족: 훈련 가능한 데이터 세트가 부족하며 annotation 을 만들어야 함(4번 이유의 연장선)
 
 ## Object Localization 과 Detection 이해
+
+  <img width="1122" alt="스크린샷 2021-07-14 오전 11 10 47" src="https://user-images.githubusercontent.com/58493928/125671574-201a7af6-70a3-4b4e-8b1b-243eab81226a.png">
+
+  <img width="1138" alt="스크린샷 2021-07-14 오전 11 14 54" src="https://user-images.githubusercontent.com/58493928/125672098-a65122a2-fcff-4be6-aaf9-06745f69c7a8.png">
+
 ### Object Localization 개요
 - 원본 이미지에 하나의 오브젝트만 있는 경우
 - Image classification + (Annotation file에 위치 정보 표현 갖고 있음 --> feature map 에 오브젝트가 하나 밖에 없어서 Bounding Box Regression --> 학습할 수록 bounding box 위치 좌표(annotation) 예측 오류를 줄여나감.)
