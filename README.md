@@ -2,9 +2,9 @@
 
 ```bash
 |-- Introduction of Object Detection
-|  |-- Object detection 과 Segmentation 이해
-|  |-- Object detection 주요 구성 요소 및 왜 object detection 은 어려운가?
-|  |-- Object Localization 과 Detection 이해
+|  |-- Understanding of Object detection & Segmentation
+|  |-- Main properties of Object detection and difficulties
+|  |-- Understanding of Object Localization & Detection
 |     |-- Region Proposal
 |     |-- IoU
 |     |-- NMS
@@ -13,7 +13,7 @@
 ```
 
 # Object detection 
-## Object detection 과 Semgentation 이해
+## Object detection 과 Segmentation 이해
 - AlexNet (2014)의 등장: Imagenet 압도적 성능 개선 -> Deep learning 기반으로 발전
 	- PASCAL VOC (object detection 대회) 에서 mAP (mean Average Precision) 성능 대폭 개선하기 시작(약 60% 이상) (그전 모델인 LeNet 부터 큰폭 성능 개선 시작함. Deep ConvNets 사용) 
 - Classification: 하나의 image/object에 대해서 분류
