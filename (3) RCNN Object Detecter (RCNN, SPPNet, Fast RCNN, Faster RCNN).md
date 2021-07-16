@@ -26,3 +26,14 @@
   - <img width="872" alt="스크린샷 2021-07-16 오전 11 26 25" src="https://user-images.githubusercontent.com/58493928/125992635-be3a1abd-a375-4421-b684-c604f879c9df.png">
   - <img width="1072" alt="스크린샷 2021-07-16 오전 11 40 16" src="https://user-images.githubusercontent.com/58493928/125994372-07d1a0b7-d978-4c98-b564-db292aa89782.png">
   - <img width="1072" alt="스크린샷 2021-07-16 오전 11 40 35" src="https://user-images.githubusercontent.com/58493928/125994408-5e237f0c-c1e9-44d9-b834-646ee47c3348.png">
+
+## Fast RCNN
+<img width="1156" alt="스크린샷 2021-07-16 오후 12 00 13" src="https://user-images.githubusercontent.com/58493928/125996270-419c26fe-ceb1-43a7-826a-2ded2980dade.png">
+- SPPNet과 유사한 `ROI Pooling layer` 존재.
+  - feature map 상의 임의의 ROI를 고정 크기의 pooling 영역으로 매핑 (pool 크기를 일반적으로 7x7로 설정)
+  - 매핑시 일반적으로 maxpooling 적용
+  
+![스크린샷 2021-07-16 오전 11 53 29](https://user-images.githubusercontent.com/58493928/125995585-7b3e9b16-116a-4d7b-b3b5-eda78cf42a52.png)
+- 최종 layer는 softmax (SVM 아님)
+- multi-task loss 함수로 classification과 regression을 함께 최적화
+  - <img width="980" alt="스크린샷 2021-07-16 오후 12 04 13" src="https://user-images.githubusercontent.com/58493928/125996664-ed39685f-e7a0-4320-b6e0-3789e60ca650.png">
