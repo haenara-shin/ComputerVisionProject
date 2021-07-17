@@ -196,3 +196,22 @@
 - multi-task loss 함수로 classification과 regression을 함께 최적화
   - <img width="980" alt="스크린샷 2021-07-16 오후 12 04 13" src="https://user-images.githubusercontent.com/58493928/125996664-ed39685f-e7a0-4320-b6e0-3789e60ca650.png">
 
+## Faster RCNN (딥러닝만으로 object detection 구현 시작)
+<img width="1177" alt="스크린샷 2021-07-17 오후 1 13 31" src="https://user-images.githubusercontent.com/58493928/126048413-75d767af-c875-4f25-8c6e-34c1082738a0.png">
+<img width="1010" alt="스크린샷 2021-07-17 오후 1 27 21" src="https://user-images.githubusercontent.com/58493928/126048701-09ad4f69-2d79-4fec-a225-cb51bacbac96.png">
+<img width="1202" alt="스크린샷 2021-07-17 오후 1 28 33" src="https://user-images.githubusercontent.com/58493928/126048703-e187c784-266a-4801-a24e-2c41519481d4.png">
+
+- CNN 통과한 feature map이 (1) RPN, (2) 그래도 RoI Pooling 진행
+- RPN(Region Proposal Network, 전부 딥러닝으로 처리할 수 있게 됨. SPP를 대체함.) + Fast RCNN
+  - RPN 구현 이슈: 데이터로 주어질 feature 는 pixel 값이고, target은 ground truth bounding box 인데 이를 어떻게 selective search 수준의 region proposal을 할 수 있을지?
+    - `Anchor Box` 도입: Object가 있는지 없는지 후보 box. 총 9개의 `anchor box` (3개의 서로 다른 크기, 3개의 서로 다른 ratio 구성) --> object의 크기가 다양하기 때문.
+  <img width="419" alt="스크린샷 2021-07-17 오후 1 17 40" src="https://user-images.githubusercontent.com/58493928/126048455-a5c82b66-4646-4c59-b280-7b060949a4f2.png">
+  
+    - 이미지와 feature map에서 anchor box 맵핑을 하고 backbone CNN(VGG)에 넣음.
+    - ![스크린샷 2021-07-17 오후 1 30 27](https://user-images.githubusercontent.com/58493928/126048710-28359eb6-356f-4c7e-8c84-05f5c9f41bc9.png)
+    - ![스크린샷 2021-07-17 오후 1 34 03](https://user-images.githubusercontent.com/58493928/126048799-39ce0a13-9329-4209-b8ea-2cb3821b1ceb.png)
+  - `Positive anchor box`: Ground Truth BB 겹치는 IOU 값에 따라 Anchor box를 분류하는데, 0.7 이상이면 positive, 0.3 보다 낮으면 negative. (0.3~0.7은 애매하기 때문에 아예 학습에서 제외)
+    - 예측 anchor box는 positive anchor box와의 좌표값 차이를 최소화 할 수 있는 bounding box regression 수행.
+    - ![스크린샷 2021-07-17 오후 1 46 09](https://user-images.githubusercontent.com/58493928/126048988-13d7ca22-40e1-4fdc-b752-f439184066a1.png)
+    - <img width="933" alt="스크린샷 2021-07-17 오후 1 48 45" src="https://user-images.githubusercontent.com/58493928/126049049-1fef8d09-11a6-4b5c-a68d-de1af3a0d41d.png">
+- Summary <img width="1115" alt="스크린샷 2021-07-17 오후 1 53 48" src="https://user-images.githubusercontent.com/58493928/126049269-952370cf-1c57-428f-a6f7-a9114b2bd638.png">
