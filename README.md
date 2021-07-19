@@ -15,6 +15,8 @@
 |  |-- SPPNet
 |  |-- Fast RCNN
 |  |-- Faster RCNN
+|  |-- OpenCV + DNN
+|  |-- Modern Object Detection Model Architecture
 |-- Understanding of MMDetection & Faster RCNN
 |-- SSD
 |-- YOLO
@@ -250,3 +252,17 @@ cvNet = Cv2.dnn.readNetFromTensorflow(가중치 모델 파일, 환경 파일)
   - Video 의 경우, `cv2.VideoCapture(input_file_path)`사용
     <img width="1160" alt="스크린샷 2021-07-18 오후 9 54 18" src="https://user-images.githubusercontent.com/58493928/126105179-fc22287a-6e6c-4e9b-930a-2344b58153eb.png">
 
+  * 주의 사항!! <img width="847" alt="스크린샷 2021-07-18 오후 10 31 53" src="https://user-images.githubusercontent.com/58493928/126107933-aea76fa9-75de-4e04-826c-d17d9a58e4d5.png">
+
+## Modern Object Detection Model Architecture
+  <img width="923" alt="스크린샷 2021-07-18 오후 11 06 32" src="https://user-images.githubusercontent.com/58493928/126111457-490f24b8-a057-4517-9b38-0e160339afeb.png">
+
+- `Backbone`: 원본 이미지 받아서 feature map 생성. Image classification model. (ex: ResNet, VGGNet..)
+- `Neck`: Feature Pyramid Network (FPN). 앞선 backbone에서 만들어진 Feature map의 두께가 계속 증가(상세한 정보 --> 좀 더 추상화된 정보). 각 backbone layer에서 생성된 feature map을 모두 사용함 (각 feature map에서 담고 있는 정보가 모두 다를 수 있기 때문에. 예를 들어 동영상?. 즉, 작은 object 들을 보다 잘 detect하기 위해서 다양한 feature map 활용. 상위 feature map의 추상화된 정보와 하위 feature map의 정보를 효과적으로 결합) (이걸 건너 뛰고 그냥 bottom-up 각 단계에서 바로 detection 하는 경우가 `SSD`)
+  <img width="878" alt="스크린샷 2021-07-18 오후 11 06 49" src="https://user-images.githubusercontent.com/58493928/126111535-77cfcbc3-d81e-477c-b591-cdd998c0ded0.png">
+  
+- <img width="930" alt="스크린샷 2021-07-18 오후 11 11 59" src="https://user-images.githubusercontent.com/58493928/126111617-ef2ef667-1a9d-4804-983a-0eff0bc78556.png">
+
+- <img width="842" alt="스크린샷 2021-07-18 오후 11 12 51" src="https://user-images.githubusercontent.com/58493928/126111698-fba6abce-6dab-49a4-8da3-0290e9668276.png">
+
+- <img width="934" alt="스크린샷 2021-07-18 오후 11 13 10" src="https://user-images.githubusercontent.com/58493928/126111750-7adcb87e-eea0-4907-8e4d-4e0eb617b9a5.png">

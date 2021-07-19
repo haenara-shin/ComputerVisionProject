@@ -57,3 +57,52 @@
     - ![스크린샷 2021-07-17 오후 1 46 09](https://user-images.githubusercontent.com/58493928/126048988-13d7ca22-40e1-4fdc-b752-f439184066a1.png)
     - <img width="933" alt="스크린샷 2021-07-17 오후 1 48 45" src="https://user-images.githubusercontent.com/58493928/126049049-1fef8d09-11a6-4b5c-a68d-de1af3a0d41d.png">
 - Summary <img width="1115" alt="스크린샷 2021-07-17 오후 1 53 48" src="https://user-images.githubusercontent.com/58493928/126049269-952370cf-1c57-428f-a6f7-a9114b2bd638.png">
+
+## OpenCV로 Object Detection 구현
+- OpenCV는 자체적으로 딥러닝 가중치 모델을 생성하지 않고 타 framework 에서 생성된 모델을 변환하여 로딩함.
+- DNN 패키지는 파일로 생성된 타 framework 모델을 로딩할 수 있도록 `readNetFromXXX(가중치 모델 파일, 환경 설정 파일)` API를 제공함.
+  - `가중치 모델 파일`: 타 framework 모델 파일
+  - `환경 설정 파일`: 타 framework 모델 파일의 환경(config) 파일을 DNN 패키지에서 다시 변환한 환경 파일
+```python
+cvNet = Cv2.dnn.readNetFromTensorflow(가중치 모델 파일, 환경 파일)
+``` 
+  - [TensorFlow](https://github.com/opencv/opencv/wiki/TensorFlow-Object-Detection-API)에서 가장 많은 유형의 detection/segmentation 모델 제공(가장 다양한 base network 지원). (그 외 Torch...)
+    - 1. 가중치 모델 파일과 환경 설정 파일을 로드해서 inference network 모델 생성
+      ```python
+      cvNet = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb`, 'graph.pbtxt')
+      img = cv2.imread('img.jpg')
+      rows, cols, channels = img.shape
+      ```
+    - 2. 입력 이미지를 preprocessing 해서 network에 입력
+      ```python
+      cvNet.setInput(cv2.dnn.blobFromImage(img, size=(300,300),swapRB=True, crop=False))
+      ```
+      <img width="1131" alt="스크린샷 2021-07-18 오후 9 49 52" src="https://user-images.githubusercontent.com/58493928/126105099-667353c4-bad9-40d5-ac78-8c83f0f24323.png">
+
+      <img width="1160" alt="스크린샷 2021-07-18 오후 9 50 28" src="https://user-images.githubusercontent.com/58493928/126105142-21533750-113c-4812-8e72-01e87d44377f.png">
+
+    - 3. Inference network 에서 output 추출
+      ```python
+      networkOutput = cvNet.forward()
+      ```
+    - 4. 추출된 output 에서 detect 정보를 기반으로 원본 image 위에 object detection 시각화
+      ```python
+      for detection in networkOutput[0,0]:
+        'object detected 된 결과, bounding box 좌표, 예측 레이블들을 원본 image 위에 시각화 로직'
+  - Video 의 경우, `cv2.VideoCapture(input_file_path)`사용
+    <img width="1160" alt="스크린샷 2021-07-18 오후 9 54 18" src="https://user-images.githubusercontent.com/58493928/126105179-fc22287a-6e6c-4e9b-930a-2344b58153eb.png">
+
+  * 주의 사항!! <img width="847" alt="스크린샷 2021-07-18 오후 10 31 53" src="https://user-images.githubusercontent.com/58493928/126107933-aea76fa9-75de-4e04-826c-d17d9a58e4d5.png">
+
+## Modern Object Detection Model Architecture
+  <img width="923" alt="스크린샷 2021-07-18 오후 11 06 32" src="https://user-images.githubusercontent.com/58493928/126111457-490f24b8-a057-4517-9b38-0e160339afeb.png">
+
+- `Backbone`: 원본 이미지 받아서 feature map 생성. Image classification model. (ex: ResNet, VGGNet..)
+- `Neck`: Feature Pyramid Network (FPN). 앞선 backbone에서 만들어진 Feature map의 두께가 계속 증가(상세한 정보 --> 좀 더 추상화된 정보). 각 backbone layer에서 생성된 feature map을 모두 사용함 (각 feature map에서 담고 있는 정보가 모두 다를 수 있기 때문에. 예를 들어 동영상?. 즉, 작은 object 들을 보다 잘 detect하기 위해서 다양한 feature map 활용. 상위 feature map의 추상화된 정보와 하위 feature map의 정보를 효과적으로 결합) (이걸 건너 뛰고 그냥 bottom-up 각 단계에서 바로 detection 하는 경우가 `SSD`)
+  <img width="878" alt="스크린샷 2021-07-18 오후 11 06 49" src="https://user-images.githubusercontent.com/58493928/126111535-77cfcbc3-d81e-477c-b591-cdd998c0ded0.png">
+  
+- <img width="930" alt="스크린샷 2021-07-18 오후 11 11 59" src="https://user-images.githubusercontent.com/58493928/126111617-ef2ef667-1a9d-4804-983a-0eff0bc78556.png">
+
+- <img width="842" alt="스크린샷 2021-07-18 오후 11 12 51" src="https://user-images.githubusercontent.com/58493928/126111698-fba6abce-6dab-49a4-8da3-0290e9668276.png">
+
+- <img width="934" alt="스크린샷 2021-07-18 오후 11 13 10" src="https://user-images.githubusercontent.com/58493928/126111750-7adcb87e-eea0-4907-8e4d-4e0eb617b9a5.png">
