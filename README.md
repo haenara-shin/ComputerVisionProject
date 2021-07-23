@@ -272,7 +272,7 @@ cvNet = Cv2.dnn.readNetFromTensorflow(가중치 모델 파일, 환경 파일)
 - `Detectron2`: Config 기반. Facebook Research에서 주도.
 - `MMDetection`: Config 기반. 중국 칭화 대학 중심의 OpenMMLab 주도. 지원되는 알고리즘 많음. 구현 성능이 뛰어남.
 
-## MMDetection 개요 및 소개
+## MMDetection 개요
 - [MMDetection: Open MMLab Detection Toolbox and Benchmark](https://arxiv.org/pdf/1906.07155.pdf)
 - PyTorch 기반
 - <img width="897" alt="스크린샷 2021-07-23 오전 10 57 40" src="https://user-images.githubusercontent.com/58493928/126822507-78a378c9-980a-44f8-8acf-e722acbf1894.png">
