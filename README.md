@@ -26,6 +26,16 @@
 |-- Segmentation - Mask RCNN
 ```
 
+# Tips for Google Colab 
+- Open the developer tools in chrome or firefox, and then paste the below codes.
+```javascript (Prevent from disconnection in Google Colab)
+function ClickConnect(){
+console.log("Working"); 
+document.querySelector("colab-toolbar-button#connect").click() 
+}
+setInterval(ClickConnect,60000)
+```
+
 # Introduction of Object Detection 
 ## Object detection 과 Segmentation 이해
 - AlexNet (2014)의 등장: Imagenet 압도적 성능 개선 -> Deep learning 기반으로 발전
@@ -292,6 +302,10 @@ cvNet = Cv2.dnn.readNetFromTensorflow(가중치 모델 파일, 환경 파일)
   - <img width="811" alt="스크린샷 2021-07-23 오전 11 14 48" src="https://user-images.githubusercontent.com/58493928/126824480-a9492a86-e722-4e20-bae2-fe50c5f6ac7a.png">
 - Config 기반의 구성
   - <img width="763" alt="스크린샷 2021-07-23 오전 11 18 26" src="https://user-images.githubusercontent.com/58493928/126824662-4de29a02-5f41-4b4d-a7a9-0410e1da86d3.png">
+    
+    - ![스크린샷 2021-07-27 오후 8 12 38](https://user-images.githubusercontent.com/58493928/127262849-5f700d52-edc6-465e-ab8d-9f1a44d52095.png)
+    - ![스크린샷 2021-07-27 오후 8 12 59](https://user-images.githubusercontent.com/58493928/127262871-c26a20d7-0c35-45c2-88f5-d1b9b545c4e5.png)
+    - ![스크린샷 2021-07-27 오후 8 13 29](https://user-images.githubusercontent.com/58493928/127262890-719e3c41-ae7a-4142-8ebf-fe4a82549a0d.png)
   - `rpn_head` 에서 클래스 갯수만 바꾸면 됨
   - `data`, `val` 주로 직접 개입. 
 - MMDetection Training Pipeline
