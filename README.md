@@ -36,6 +36,7 @@ document.querySelector("colab-toolbar-button#connect").click()
 setInterval(ClickConnect,60000)
 ```
 
+#
 # Introduction of Object Detection 
 ## Object detection 과 Segmentation 이해
 - AlexNet (2014)의 등장: Imagenet 압도적 성능 개선 -> Deep learning 기반으로 발전
@@ -142,7 +143,7 @@ setInterval(ClickConnect,60000)
   - ![스크린샷 2021-07-13 오후 5 06 01](https://user-images.githubusercontent.com/58493928/125540594-04c2cf98-f466-4c51-a78b-3191cc6451a4.png)
   - 오른쪽 최대 precision  값을 연결한다 --> 너비가 average precision (AP) 의미.
     - AP는 한 개의 오브젝트에 대한 의미. mAP 는 그런 오브젝트들의 AP 평균
-
+#
 # Introduction of OpenCV and (major) Dataset for Object detection & Segmentation
 ## Dataset
 - [PASCAL VOC](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/): `xml format`. 20개의 오브젝트 카테고리. 개별 오브젝트의 bounding box 정보(xmin, ymin, xmax, ymax)
@@ -167,7 +168,7 @@ setInterval(ClickConnect,60000)
   - 사용상 주의점(3)
     - `cv2.imshow(이미지array)`는 이미지 배열을 window frame에 보여줌. 근데 주피터노트북에서는 에러가 발생. `cv2.waitKey()`는 키보드 입력이 있을 때까지 무한 대기. `cv2.destroyAllWindows()` 화면의 윈도우 프레임 모두 종료. 그래서 `이미지 배열 시각화 할때 주피터노트북에서는 matplotlib` 사용. `plt.imshow(배열, 이미지, 다 읽을 수 있음)`
   - `cv2.VideoCapture(처리할 파일)`는 동영상을 개별 frame 으로 하나씩 읽어들임(`.read()`). `cv2.VideoWriter(출력될 파일명)`는 `VideoCapture`로 읽어들인 개별 frame 을 `동영상 파일로 Write` 수행.
-
+#
 #  RCNN Object Detecter (RCNN, SPPNet, Fast RCNN, Faster RCNN)
 - Object localization: 이미지 1개에 1개의 오브젝트
 - Object detection: 이미지 1개에 2개 이상의 오브젝트
@@ -312,3 +313,28 @@ cvNet = Cv2.dnn.readNetFromTensorflow(가중치 모델 파일, 환경 파일)
   - Hook(Callback이란 같은 것임)을 통해 학습에 필요한 여러 설정들을 customization 
   - 대부분 config 에서 설정함.
   - <img width="424" alt="스크린샷 2021-07-23 오전 11 18 44" src="https://user-images.githubusercontent.com/58493928/126824633-ed4411d0-5cd0-44d3-9079-4a01d0b5bd90.png">
+
+#
+# SSD
+- Single-Shot Detector (One-stage detector)
+- Region Proposal을 별도로 가지지 않음(별도로 가지는것들은 Two-stage detector, 앞서 공부 했던 것들. 느려서 실시간 영상/이미지 처리에 한계가 있음.)
+- 수행 성능 및 속도를 모두 개선함. (Yolo가 버전업을 하고, RetinaNet(정밀도 up) 등장.)
+- VGG16과 같은 backbone을 통과한 뒤에 생성된 feature map들 에서 추출한 anchor box들이 오브젝트에 대한 classification/detection을 같이 함.
+  - ![스크린샷 2021-07-30 오전 11 01 02](https://user-images.githubusercontent.com/58493928/127693739-ebd2dd2f-a5d6-43a5-b97e-556b885402c6.png)
+    - Classifier: Conv (4x(classes+4)) 의미 - anchor box 4개 * (클래스 갯수 + 백그라운드 1개 + 좌표값_anchor box와 gt box 사이의 offset 값(x, y, w, h), 즉 4) - w가 아니라 Center 인듯.
+- 주요 구성 요소
+  - Multi scale feature map(layer)
+    - 슬라이딩 윈도우 remind! (슬라이딩 윈도우 크기를 크게 하면 IoU가 작아져서 detection 능력 저하)
+    - 이미지 scale 조정에 따른(이미지 피라미드) 여러 크기의 object detection
+    - 그렇다면, `서로 다른 크기의 feature map`을 이용한 object detection을 한다면? (CNN 통과후): cnn 통과하면서 점점 추상적인 특징을 가진 feature map을 얻게 됨. 
+    - `feature map 사이즈가 작을수록`(추상화 잘 되어 있을 수록) 더 큰 오브젝트를 찾을 수 있음(`object detection 잘 됨`).
+  - Default box(`anchor box` 와 같은 것)
+    - 개별 anchor box가 다음 정보를 가질 수 있도록 학습
+      - 개별 anchor box와 겹치는 feature map 영역의 object 클래스 분류(분류)
+      - GT box 위치를 예측할 수 있도록 수정된 좌표(탐지)
+    - 각 feature map의 크기에 대해서 개별 anchor box 별로 detection 하려는 Object 유형에 대한 softmax 값 및 수정 좌표 값을 학습하게 됨.
+- SSD Training
+  - Matching 전략: Bounding box와 겹치는 IoU가 0.5 이상인 default(anchor) box들의 classification과 bounding box regression을 최적화 학습 수행
+  - Loss function
+    - ![스크린샷 2021-07-30 오전 11 35 17](https://user-images.githubusercontent.com/58493928/127697152-a1b76d33-d8e7-46ff-8b34-438527263265.png)
+  - 작은 오브젝트들이 잘 탐지가 안되는 경우 발생 --> Data augmentation 에 많은 노력 및 피처 피라미드/RetinaNet 등장
