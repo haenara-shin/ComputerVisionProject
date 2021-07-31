@@ -35,6 +35,7 @@ document.querySelector("colab-toolbar-button#connect").click()
 }
 setInterval(ClickConnect,60000)
 ```
+
 #
 # Introduction of Object Detection 
 ## Object detection 과 Segmentation 이해
@@ -385,3 +386,4 @@ with tf.Session() as sess:
 cv.imshow('TensorFlow MobileNet-SSD', img)
 cv.waitKey()
 ```
+

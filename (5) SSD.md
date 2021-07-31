@@ -20,6 +20,7 @@
   - Matching 전략: Bounding box와 겹치는 IoU가 0.5 이상인 default(anchor) box들의 classification과 bounding box regression을 최적화 학습 수행
   - Loss function
     - ![스크린샷 2021-07-30 오전 11 35 17](https://user-images.githubusercontent.com/58493928/127697152-a1b76d33-d8e7-46ff-8b34-438527263265.png)
+
   - 작은 오브젝트들이 잘 탐지가 안되는 경우 발생 --> Data augmentation 에 많은 노력 및 피처 피라미드/RetinaNet 등장
 
 ## SSD inference
