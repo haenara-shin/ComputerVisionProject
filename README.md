@@ -385,3 +385,18 @@ with tf.Session() as sess:
 cv.imshow('TensorFlow MobileNet-SSD', img)
 cv.waitKey()
 ```
+
+## TensorFlowHub - pretrained model 사용 (SSD)
+- [TensorFlowHub](https:/tfhub.dev) 
+- CPU 에서 inference를 가능케 하려고 노력..했으나 성능은 별로
+- 코드가 심플해짐!
+- 주의 사항: tensorflow 에서는 bounding box 좌표를 [y_min, x_min, y_max, x_max] 순으로 반환/표현함.
+```python
+!pip install --upgrade tensorflow_hub
+
+import tensorflow_hub as hub
+
+model = hub.KerasLayer('https://tfhub.dev/google/nnlm-en-dim128/2')
+embeddings = model(['something you want'])
+print(embeddings.shape) # (4, 128)
+```
